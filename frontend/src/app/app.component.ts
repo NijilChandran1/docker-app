@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
     this.error = null;
     
     // Call the FastAPI backend
-    this.http.get<DataItem[]>('http://localhost:8000/api/data')
+    this.http.get<DataItem[]>("/api/data")
       .subscribe({
         next: (response) => {
           this.data = response;
