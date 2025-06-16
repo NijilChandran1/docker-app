@@ -30,6 +30,7 @@ services:
     container_name: angular_frontend
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - app_network
     depends_on:
