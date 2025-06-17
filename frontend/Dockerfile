@@ -25,11 +25,13 @@ COPY --from=build /app/dist/angular-frontend /usr/share/nginx/html
 
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p /etc/nginx/certs/
 COPY certs/nginx-selfsigned.crt /etc/nginx/certs/nginx-selfsigned.crt
 COPY certs/nginx-selfsigned.key /etc/nginx/certs/nginx-selfsigned.key
+RUN chmod 644 /etc/nginx/certs/nginx-selfsigned.crt /etc/nginx/certs/nginx-selfsigned.key
 
-# Expose port 80 and 443
-EXPOSE 80 443
+# Expose port 3000
+EXPOSE ${FRONTEND_HTTP_PORT:-3000} ${FRONTEND_HTTPS_PORT:-3000}
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

@@ -59,28 +59,28 @@ remove_network() {
 # Function to start database
 start_database() {
     print_status "Starting database service..."
-    docker-compose -f docker-compose.db.yml up -d
+    docker compose -f docker-compose.db.yml up -d
     print_success "Database service started"
 }
 
 # Function to start application services
 start_app() {
     print_status "Starting application services..."
-    docker-compose -f docker-compose.app.yml up -d
+    docker compose -f docker-compose.app.yml up -d
     print_success "Application services started"
 }
 
 # Function to stop database
 stop_database() {
     print_status "Stopping database service..."
-    docker-compose -f docker-compose.db.yml down
+    docker compose -f docker-compose.db.yml down
     print_success "Database service stopped"
 }
 
 # Function to stop application services
 stop_app() {
     print_status "Stopping application services..."
-    docker-compose -f docker-compose.app.yml down
+    docker compose -f docker-compose.app.yml down
     print_success "Application services stopped"
 }
 
@@ -88,9 +88,9 @@ stop_app() {
 show_logs() {
     local service=$1
     if [ "$service" = "db" ]; then
-        docker-compose -f docker-compose.db.yml logs -f
+        docker compose -f docker-compose.db.yml logs -f
     elif [ "$service" = "app" ]; then
-        docker-compose -f docker-compose.app.yml logs -f
+        docker compose -f docker-compose.app.yml logs -f
     else
         print_error "Invalid service. Use 'db' or 'app'"
         exit 1
@@ -110,25 +110,25 @@ show_status() {
     
     echo
     echo "=== Database Services ==="
-    docker-compose -f docker-compose.db.yml ps
+    docker compose -f docker-compose.db.yml ps
     
     echo
     echo "=== Application Services ==="
-    docker-compose -f docker-compose.app.yml ps
+    docker compose -f docker-compose.app.yml ps
     
     echo
     echo "=== Service Health ==="
-    echo "Frontend: http://localhost:80"
-    echo "Backend API: http://localhost:8000"
-    echo "Backend Health: http://localhost:8000/health"
-    echo "Database: localhost:5432"
+    echo "Frontend: https://localhost:443"
+    echo "Backend API: http://localhost:8001"
+    echo "Backend Health: http://localhost:8001/health"
+    echo "Database: localhost:5433"
 }
 
 # Function to build services
 build_services() {
     print_status "Building all services..."
-    docker-compose -f docker-compose.db.yml build
-    docker-compose -f docker-compose.app.yml build
+    docker compose -f docker-compose.db.yml build
+    docker compose -f docker-compose.app.yml build
     print_success "All services built successfully"
 }
 
@@ -146,9 +146,9 @@ start_all() {
     print_success "All services started successfully!"
     echo
     print_status "Application URLs:"
-    echo "  Frontend: http://localhost:80"
-    echo "  Backend API: http://localhost:8000"
-    echo "  Backend Health: http://localhost:8000/health"
+    echo "  Frontend: https://localhost:443"
+    echo "  Backend API: http://localhost:8001"
+    echo "  Backend Health: http://localhost:8001/health"
 }
 
 # Function to stop all services
@@ -172,13 +172,13 @@ cleanup() {
     
     # Remove volumes
     print_status "Removing volumes..."
-    docker-compose -f docker-compose.db.yml down -v
-    docker-compose -f docker-compose.app.yml down -v
+    docker compose -f docker-compose.db.yml down -v
+    docker compose -f docker-compose.app.yml down -v
     
     # Remove images
     print_status "Removing images..."
-    docker-compose -f docker-compose.db.yml down --rmi all
-    docker-compose -f docker-compose.app.yml down --rmi all
+    docker compose -f docker-compose.db.yml down --rmi all
+    docker compose -f docker-compose.app.yml down --rmi all
     
     remove_network
     print_success "Cleanup completed"

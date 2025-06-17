@@ -5,7 +5,7 @@ services:
     build:
       context: ./database
       dockerfile: Dockerfile
-    container_name: postgres_db
+    container_name: postgres_test_db
     environment:
       POSTGRES_DB: appdb
       POSTGRES_USER: postgres
@@ -15,7 +15,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - app_network
     restart: unless-stopped
